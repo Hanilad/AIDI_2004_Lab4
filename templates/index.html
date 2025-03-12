@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Species Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Fish Species Classification</h2>
+        <form id="predictionForm">
+            <label>Weight:</label>
+            <input type="number" id="weight" required>
+
+            <label>Length1:</label>
+            <input type="number" id="length1" required>
+
+            <label>Length2:</label>
+            <input type="number" id="length2" required>
+
+            <label>Length3:</label>
+            <input type="number" id="length3" required>
+
+            <label>Height:</label>
+            <input type="number" id="height" required>
+
+            <label>Width:</label>
+            <input type="number" id="width" required>
+
+            <button type="button" onclick="predictSpecies()">Predict Species</button>
+        </form>
+
+        <h3 id="result"></h3>
+    </div>
+
+    <script>
+        function predictSpecies() {
+            let data = {
+                features: [
+                    parseFloat(document.getElementById("weight").value),
+                    parseFloat(document.getElementById("length1").value),
+                    parseFloat(document.getElementById("length2").value),
+                    parseFloat(document.getElementById("length3").value),
+                    parseFloat(document.getElementById("height").value),
+                    parseFloat(document.getElementById("width").value)
+                ]
+            };
+
+            fetch("/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                document.getElementById("result").innerText = "Predicted Species: " + result["Predicted Species"];
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
