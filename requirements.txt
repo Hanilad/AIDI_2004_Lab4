@@ -9,3 +9,4 @@ scipy==1.10.1
 Jinja2==3.1.2
 python3-distutils
 setuptools
+python-3.9.12
